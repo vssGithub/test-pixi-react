@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Application } from "pixi.js";
+import React, { useEffect, useRef } from "react";
+
+const app = new Application({
+  width: 800,
+  height: 600,
+  backgroundColor: 0x5BBA6F,
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const ref = useRef(null);
+
+  useEffect(() => {
+    // On first render add app to DOM
+    ref.current.appendChild(app.view);
+    // Start the PixiJS app
+    app.start();
+
+    return () => {
+      // On unload stop the application
+      app.stop();
+    };
+  }, []);
+ 
+  return <div ref={ref} />;
 }
 
 export default App;
